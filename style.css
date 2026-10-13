@@ -216,3 +216,29 @@ body{background:var(--paper);color:var(--ink)}
 .mobile-cta a:last-child{background:linear-gradient(135deg,#d3ad63,#a8792c);color:#111820}
 .gallery-rail figcaption{color:#bdc2c8}
 @media(max-width:700px){.brand-title{font-size:15px;letter-spacing:1px}.brand{gap:9px}.brand-logo{width:92px;height:56px}}
+
+/* Fine corrections: readable text on dark cards and subtle right-to-left heading motion */
+.stay-capacity div{background:#1b2935;border-color:#42515f}
+.stay-capacity b{color:#f1eee8}
+.stay-capacity span{color:#f0c36d}
+.room-card h3,.card-body h3{color:#f1eee8}
+.card-body p{color:#c2c9d0}
+.card-body a{color:#f0c36d}
+.pill{background:rgba(17,27,37,.92);color:#f3d28e;border:1px solid rgba(240,195,109,.3)}
+#stay .section-top>div:first-child,
+#gallery .section-top>div:first-child{min-width:0;overflow:hidden}
+#stay .section-top h2,
+#gallery .section-top h2{width:max-content;max-width:none;white-space:nowrap;animation:merina-heading-marquee 18s linear infinite;will-change:transform}
+@keyframes merina-heading-marquee{
+  from{transform:translateX(100%)}
+  to{transform:translateX(-100%)}
+}
+@media(max-width:520px){
+  #stay .section-top>div:first-child,
+  #gallery .section-top>div:first-child{max-width:100%;width:100%}
+  #stay .section-top h2,
+  #gallery .section-top h2{font-size:34px;animation-duration:16s}
+}
+@media(prefers-reduced-motion:reduce){
+  #stay .section-top h2,#gallery .section-top h2{animation:none;white-space:normal;width:auto;transform:none}
+}
