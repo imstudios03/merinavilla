@@ -173,3 +173,13 @@ body.lightbox-open{overflow:hidden}
     margin-top:18px;
   }
 }
+
+/* Subtle Merina Villa building watermark background; all existing layouts remain unchanged. */
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(rgba(250,248,244,.88),rgba(250,248,244,.88)),url('assets/merina-villa-watermark.png');
+  background-attachment:fixed;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
