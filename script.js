@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Continuous right-to-left auto-scroll for image rails (desktop + mobile).
   // The rail contains three copies so the images loop without a visible jump.
   document.querySelectorAll('.rail,.gallery-rail').forEach(rail=>{
+    const direction = rail.matches('.event-rail,.places-rail') ? 1 : -1; // +1 = left-to-right, -1 = right-to-left
     const originals=Array.from(rail.children);
     if(!originals.length) return;
 
@@ -113,9 +114,9 @@ document.addEventListener('DOMContentLoaded', function(){
     const startPosition=()=>{
       cycleWidth=measure();
       if(cycleWidth>0){
-        // Start at the first copy; move rightward through duplicates so
-        // the visible images travel from right to left.
-        rail.scrollLeft=0;
+        // For RTL, start at the first copy. For LTR, start one cycle in so
+        // decreasing scrollLeft moves the images visually left-to-right.
+        rail.scrollLeft = direction < 0 ? 0 : cycleWidth;
       }
     };
 
@@ -133,11 +134,13 @@ document.addEventListener('DOMContentLoaded', function(){
       lastTime=time;
 
       if(!paused && cycleWidth>0){
-        rail.scrollLeft += getSpeed()*dt;
+        rail.scrollLeft += direction * getSpeed()*dt;
 
-        // Seamless wrap after one copy has passed from right to left.
-        if(rail.scrollLeft >= cycleWidth*2){
+        // Seamless loop in the requested direction.
+        if(direction < 0 && rail.scrollLeft >= cycleWidth*2){
           rail.scrollLeft -= cycleWidth;
+        } else if(direction > 0 && rail.scrollLeft <= 0){
+          rail.scrollLeft += cycleWidth;
         }
       }
       rafId=requestAnimationFrame(tick);
@@ -164,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function(){
           // Preserve the same position within the repeated cycle after a
           // responsive resize instead of allowing the carousel to drift.
           const relative=((rail.scrollLeft % old)+old)%old;
-          rail.scrollLeft=cycleWidth+Math.min(relative,cycleWidth-1);
+          rail.scrollLeft=(direction < 0 ? 0 : cycleWidth)+Math.min(relative,cycleWidth-1);
         }else{
           startPosition();
         }

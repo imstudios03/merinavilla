@@ -66,8 +66,10 @@ body.lightbox-open{overflow:hidden}
 /* Customer requested centered logo and floating location button */
 .main-page-logo{
   display:block;
-  width:245px;
-  height:124px;
+  width:min(100%, 520px);
+  height:auto;
+  max-height:520px;
+  aspect-ratio:auto;
   object-fit:contain;
   margin:24px auto 0;
 }
