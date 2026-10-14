@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Continuous right-to-left auto-scroll for image rails (desktop + mobile).
   // The rail contains three copies so the images loop without a visible jump.
   document.querySelectorAll('.rail,.gallery-rail').forEach(rail=>{
-    const direction = rail.matches('.event-rail,.places-rail') ? 1 : -1; // +1 = left-to-right, -1 = right-to-left
+    const direction = rail.matches('.event-rail,.places-rail') ? -1 : 1; // scrollLeft + moves content visually right-to-left; - moves it left-to-right
     const originals=Array.from(rail.children);
     if(!originals.length) return;
 
@@ -114,9 +114,8 @@ document.addEventListener('DOMContentLoaded', function(){
     const startPosition=()=>{
       cycleWidth=measure();
       if(cycleWidth>0){
-        // For RTL, start at the first copy. For LTR, start one cycle in so
-        // decreasing scrollLeft moves the images visually left-to-right.
-        rail.scrollLeft = direction < 0 ? 0 : cycleWidth;
+        // RTL increases scrollLeft from the first copy; LTR decreases from the second copy.
+        rail.scrollLeft = direction > 0 ? 0 : cycleWidth;
       }
     };
 
@@ -136,10 +135,10 @@ document.addEventListener('DOMContentLoaded', function(){
       if(!paused && cycleWidth>0){
         rail.scrollLeft += direction * getSpeed()*dt;
 
-        // Seamless loop in the requested direction.
-        if(direction < 0 && rail.scrollLeft >= cycleWidth*2){
+        // Seamless loop in the requested visual direction.
+        if(direction > 0 && rail.scrollLeft >= cycleWidth){
           rail.scrollLeft -= cycleWidth;
-        } else if(direction > 0 && rail.scrollLeft <= 0){
+        } else if(direction < 0 && rail.scrollLeft <= 0){
           rail.scrollLeft += cycleWidth;
         }
       }
@@ -167,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function(){
           // Preserve the same position within the repeated cycle after a
           // responsive resize instead of allowing the carousel to drift.
           const relative=((rail.scrollLeft % old)+old)%old;
-          rail.scrollLeft=(direction < 0 ? 0 : cycleWidth)+Math.min(relative,cycleWidth-1);
+          rail.scrollLeft=(direction > 0 ? 0 : cycleWidth)+Math.min(relative,cycleWidth-1);
         }else{
           startPosition();
         }
