@@ -63,17 +63,14 @@ document.addEventListener('DOMContentLoaded', function(){
         '',
         '📌 Please contact me regarding my enquiry.',
         '🙏 Thank you!'
-      ].filter(Boolean).join('\\n');
+      ].filter(Boolean).join('\n');
       const url='https://wa.me/917010597696?text='+encodeURIComponent(text);
       window.open(url,'_blank','noopener,noreferrer');
     });
   }
 
-  // Continuous auto-scroll for every image rail (desktop + mobile).
-  // The rail contains 3 identical copies. We move continuously from the
-  // middle copy toward the left (which makes the images visually travel
-  // left -> right), then wrap by exactly one copy width. This never reaches
-  // the end of the duplicated content, so it cannot stop after one pass.
+  // Continuous right-to-left auto-scroll for image rails (desktop + mobile).
+  // The rail contains three copies so the images loop without a visible jump.
   document.querySelectorAll('.rail,.gallery-rail').forEach(rail=>{
     const originals=Array.from(rail.children);
     if(!originals.length) return;
@@ -116,9 +113,9 @@ document.addEventListener('DOMContentLoaded', function(){
     const startPosition=()=>{
       cycleWidth=measure();
       if(cycleWidth>0){
-        // Start at copy #2. There is one complete copy on either side,
-        // giving plenty of room to scroll forever in either direction.
-        rail.scrollLeft=cycleWidth;
+        // Start at the first copy; move rightward through duplicates so
+        // the visible images travel from right to left.
+        rail.scrollLeft=0;
       }
     };
 
@@ -136,12 +133,11 @@ document.addEventListener('DOMContentLoaded', function(){
       lastTime=time;
 
       if(!paused && cycleWidth>0){
-        rail.scrollLeft -= getSpeed()*dt;
+        rail.scrollLeft += getSpeed()*dt;
 
-        // Seamless wrap. Because the content is duplicated exactly, adding
-        // one cycle width produces the same visual frame with no pause.
-        if(rail.scrollLeft <= 0){
-          rail.scrollLeft += cycleWidth;
+        // Seamless wrap after one copy has passed from right to left.
+        if(rail.scrollLeft >= cycleWidth*2){
+          rail.scrollLeft -= cycleWidth;
         }
       }
       rafId=requestAnimationFrame(tick);

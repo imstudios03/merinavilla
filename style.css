@@ -217,7 +217,7 @@ body{background:var(--paper);color:var(--ink)}
 .gallery-rail figcaption{color:#bdc2c8}
 @media(max-width:700px){.brand-title{font-size:15px;letter-spacing:1px}.brand{gap:9px}.brand-logo{width:92px;height:56px}}
 
-/* Fine corrections: readable text on dark cards and subtle right-to-left heading motion */
+/* Fine corrections: readable text on dark cards and stationary section headings */
 .stay-capacity div{background:#1b2935;border-color:#42515f}
 .stay-capacity b{color:#f1eee8}
 .stay-capacity span{color:#f0c36d}
@@ -228,11 +228,7 @@ body{background:var(--paper);color:var(--ink)}
 #stay .section-top>div:first-child,
 #gallery .section-top>div:first-child{min-width:0;overflow:hidden}
 #stay .section-top h2,
-#gallery .section-top h2{width:max-content;max-width:none;white-space:nowrap;animation:merina-heading-marquee 18s linear infinite;will-change:transform}
-@keyframes merina-heading-marquee{
-  from{transform:translateX(100%)}
-  to{transform:translateX(-100%)}
-}
+#gallery .section-top h2{width:auto;max-width:100%;white-space:normal;animation:none;transform:none}
 @media(max-width:520px){
   #stay .section-top>div:first-child,
   #gallery .section-top>div:first-child{max-width:100%;width:100%}
@@ -242,3 +238,16 @@ body{background:var(--paper);color:var(--ink)}
 @media(prefers-reduced-motion:reduce){
   #stay .section-top h2,#gallery .section-top h2{animation:none;white-space:normal;width:auto;transform:none}
 }
+
+/* Client corrections: centered night exterior image, static headings, tidy enquiry layout */
+.main-page-logo{width:min(720px,100%);height:clamp(260px,48vw,460px);max-width:100%;object-fit:cover;object-position:center 45%;border-radius:8px;margin:28px auto 0;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+#stay .section-top>div:first-child,#gallery .section-top>div:first-child{overflow:visible;max-width:100%;width:auto}
+#stay .section-top h2,#gallery .section-top h2{animation:none!important;transform:none!important;width:auto;max-width:100%;white-space:normal}
+.enquiry-card{width:100%;min-width:0;padding:clamp(18px,3vw,32px);border-radius:8px}
+.enquiry-form{width:100%;min-width:0;gap:18px}
+.enquiry-form .form-row{width:100%;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:8px;margin:0;padding:0;border:0}
+.enquiry-form label{display:block;line-height:1.4}
+.enquiry-form input,.enquiry-form textarea{display:block;width:100%;max-width:100%;min-width:0;margin:0;border-radius:5px;line-height:1.45}
+.enquiry-form .btn{width:100%;white-space:normal;min-height:48px;border-radius:5px}
+.enquiry-form .form-note{overflow-wrap:anywhere}
+.gallery-rail,.rail{scroll-behavior:auto}
